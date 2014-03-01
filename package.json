@@ -1,0 +1,13 @@
+{
+  "name": "node-remove-html-attr-data",
+  "version": "1.0.0",
+  "description": "Removes defined class names from all html files.",
+  "main": "app.js",
+  "author": "wlkns",
+  "license": "GPLv2",
+  "dependencies": {
+    "ini": "~1.1.0",
+    "color-terminal": "0.0.3-4",
+    "node-dir": "~0.1.5"
+  }
+}
