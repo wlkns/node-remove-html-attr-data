@@ -8,11 +8,16 @@ var fs = require('fs'),
 
 if ( process.argv.length < 3 )
 {
-	console.log("Usage: node app.js <path>");
+	console.log("Usage: node app.js <path or project>");
 	process.exit();
 }
 
 var directory = process.argv[2];
+if ( config.hasOwnProperty("projects") && config.projects.hasOwnProperty(directory) )
+{
+	directory = config.projects[directory];
+}
+
 if ( !fs.existsSync(directory) ) {
 	console.log("Error: Unable to find directory: " + directory);
 	process.exit();
@@ -21,7 +26,8 @@ if ( !fs.existsSync(directory) ) {
 function parse( data ) {
 	for( var attr in config ) {
 		var replaces = config[attr];
-		if ( typeof replaces != 'object' )
+
+		if ( attr == 'projects' || typeof replaces != 'object' )
 			continue;
 
 		var attrs_found = data.match(new RegExp(" " + attr+"=['\"]+([^'\"]+)['\"]+", "ig")),
@@ -34,7 +40,7 @@ function parse( data ) {
 			{
 				var replacement = replaces[needle] || '';
 				needle = needle.replace('*', "[A-Z0-9-_]+");
-				contents = contents.replace(new RegExp(needle, "ig"), replacement);
+				contents = contents.replace(new RegExp("(^| )" + needle + "( |$)", "ig"), "$1" + replacement + "$2");
 			}
 
 			contents = contents.replace(new RegExp("[ ]+", "ig"), " ").trim();
@@ -70,7 +76,7 @@ function found(err, content, filename, next) {
 	else
 	{
 		output.colorize('Writing new changes.');
-		fs.writeFileSync(filename, newcontent);
+		//fs.writeFileSync(filename, newcontent);
 		output.colorize('%gFinished%n.\n');
 	}
 	next();
