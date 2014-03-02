@@ -62,7 +62,8 @@ output.colorize('Starting on: %b' + directory + '%n\n');
 
 dir.readFiles(directory, {
 	match: /.html$/,
-	exclude: /^\./
+	exclude: /^\./,
+	excludeDir: /Build/,
 }, found, finish);
 
 function found(err, content, filename, next) {
