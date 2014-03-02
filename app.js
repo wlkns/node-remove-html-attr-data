@@ -76,7 +76,7 @@ function found(err, content, filename, next) {
 	else
 	{
 		output.colorize('Writing new changes.');
-		//fs.writeFileSync(filename, newcontent);
+		fs.writeFileSync(filename, newcontent);
 		output.colorize('%gFinished%n.\n');
 	}
 	next();
@@ -86,5 +86,3 @@ function finish(err, files) {
 	if (err) throw err;
 	output.colorize('\n%gFinished%n reading %b' + files.length + '%N files.\n\n');
 }
-
-
